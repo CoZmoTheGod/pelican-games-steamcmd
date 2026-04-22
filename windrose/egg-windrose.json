@@ -19,7 +19,7 @@
     },
     "file_denylist": [],
     "startup_commands": {
-        "Default": "wine ./WindroseServer.exe & WS_PID=$! ; while [ ! -f ./R5/Saved/Logs/R5.log ]; do sleep 1; done; tail -c0 -F ./R5/Saved/Logs/R5.log --pid=$WS_PID"
+        "Default": "wine ./WindroseServer.exe -PORT={{SERVER_PORT}} & WS_PID=$! ; while [ ! -f ./R5/Saved/Logs/R5.log ]; do sleep 1; done; tail -c0 -F ./R5/Saved/Logs/R5.log --pid=$WS_PID"
     },
     "config": {
         "files": "{\n    \"R5\\/ServerDescription.json\": {\n        \"parser\": \"json\",\n        \"find\": {\n            \"ServerDescription_Persistent.ServerName\": \"{{server.environment.SERVER_NAME}}\",\n            \"ServerDescription_Persistent.InviteCode\": \"{{server.environment.INVITE_CODE}}\",\n            \"ServerDescription_Persistent.IsPasswordProtected\": \"{{server.environment.IS_PASSWORD_PROTECTED}}\",\n            \"ServerDescription_Persistent.Password\": \"{{server.environment.SERVER_PASSWORD}}\",\n            \"ServerDescription_Persistent.MaxPlayerCount\": \"{{server.environment.MAX_PLAYERS}}\"\n        }\n    }\n}",
@@ -35,6 +35,21 @@
         }
     },
     "variables": [
+        {
+            "sort": 0,
+            "name": "[SERVER] Game Port",
+            "description": "UDP port the server listens on for game connections. Must match the port allocated in the panel. Default is 7777.",
+            "env_variable": "SERVER_PORT",
+            "default_value": "7777",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": [
+                "required",
+                "numeric",
+                "min:1024",
+                "max:65535"
+            ]
+        },
         {
             "sort": 2,
             "name": "[SERVER] Invite Code",
